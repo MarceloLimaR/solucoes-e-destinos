@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<title>Notícias & Vistos | Soluções & Destinos</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Segoe UI', Arial, sans-serif; color: #3d2b1f; background: #faf6f0; }
+
+/* ===== MENU TOPO ===== */
+header { background: linear-gradient(135deg, #2c1d11, #4a301e); padding: 0 20px; position: sticky; top: 0; z-index: 1000; box-shadow: 0 4px 15px rgba(0,0,0,0.3); border-bottom: 3px solid #d97706; }
+.menu-container { max-width: 1150px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; height: 75px; }
+.logo { color: #fff; font-size: 1.5em; font-weight: bold; text-decoration: none; font-family: 'Georgia', serif; white-space: nowrap; }
+.logo span { color: #f59e0b; }
+nav a { color: #fef3c7; text-decoration: none; margin-left: 16px; font-size: 0.92em; font-weight: 600; transition: color 0.3s; white-space: nowrap; }
+nav a:hover { color: #f59e0b; }
+.menu-toggle { display: none; color: #f59e0b; font-size: 1.8em; cursor: pointer; background: none; border: none; }
+
+.section { max-width: 900px; margin: 40px auto; padding: 0 20px; }
+.section h1 { color: #2c1d11; font-size: 2em; margin-bottom: 10px; font-family: 'Georgia', serif; border-left: 6px solid #d97706; padding-left: 15px; }
+.atualizacao { color: #78350f; font-size: 0.95em; margin-bottom: 30px; margin-top: 10px; }
+
+.noticia { background: white; border-radius: 12px; padding: 30px; margin-bottom: 25px; box-shadow: 0 4px 15px rgba(61,43,31,0.08); border: 1px solid #f0e6d8; border-left: 6px solid #d97706; scroll-margin-top: 100px; }
+.noticia h2 { color: #2c1d11; margin-bottom: 10px; font-family: 'Georgia', serif; }
+.noticia .data { color: #888; font-size: 0.85em; margin-bottom: 15px; }
+.noticia p { line-height: 1.8; color: #5c3a21; margin-bottom: 10px; }
+.noticia.urgente { border-left-color: #dc2626; }
+.noticia.alerta { border-left-color: #d97706; }
+
+.tag { display: inline-block; padding: 4px 12px; border-radius: 12px; font-size: 0.8em; font-weight: bold; margin-bottom: 10px; }
+.tag-vermelho { background: #fee2e2; color: #991b1b; }
+.tag-amarelo { background: #fef3c7; color: #92400e; }
+
+.fonte-oficial { background: #fffbe3; border: 1px solid #fde68a; border-radius: 8px; padding: 15px; margin-top: 15px; }
+.fonte-oficial a { color: #b45309; font-weight: bold; }
+
+footer { background: #2c1d11; color: #fef3c7; text-align: center; padding: 35px 20px; margin-top: 60px; border-top: 4px solid #d97706; }
+.footer-socials { display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; margin: 15px 0; }
+.footer-socials a { color: #f59e0b; text-decoration: none; font-size: 0.95em; font-weight: bold; padding: 6px 12px; background: rgba(255,255,255,0.08); border-radius: 15px; }
+
+@media (max-width: 768px) {
+  .menu-toggle { display: block; }
+  nav { display: none; position: absolute; top: 75px; left: 0; right: 0; background: #2c1d11; flex-direction: column; padding: 20px; text-align:center; border-bottom: 3px solid #d97706; }
+  nav.active { display: flex; }
+  nav a { margin: 10px 0; }
+}
+</style>
+<style>
+.quem-topo { font-size: 1.05em; color: #f59e0b; font-weight: bold; margin: 6px 0 16px; }
+.noticia p { line-height: 1.85; }
+.destaque-final { background: rgba(217,119,6,.10); border-left: 4px solid #d97706; padding: 12px 16px; border-radius: 0 8px 8px 0; margin: 16px 0; font-size: 1.02em; }
+.assinatura { margin-top: 24px; padding-top: 16px; border-top: 1px solid rgba(0,0,0,.1); font-size: 1.05em; }
+.assinatura em { color: #d97706; font-style: italic; }
+</style>
+
+<style>
+.marca-badge{display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:8px;vertical-align:middle;margin-right:7px;flex:0 0 auto}
+.marca-badge svg{width:15px;height:15px;display:block}
+.marca-badge.grande{width:54px;height:54px;border-radius:14px;margin:0 0 10px}
+.marca-badge.grande svg{width:32px;height:32px}
+.marca-badge.media{width:38px;height:38px;border-radius:11px;margin-right:10px}
+.marca-badge.media svg{width:22px;height:22px}
+.rodape-redes a{display:inline-flex;align-items:center}
+</style>
+
+<style>
+.sd-ico{display:inline-flex;align-items:center;justify-content:center;vertical-align:middle;flex:0 0 auto;margin-right:6px}
+.sd-ico svg{width:1em;height:1em;display:block;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.sd-ico.s{font-size:1.15em}
+.sd-ico.m{font-size:1.5em}
+.sd-ico.g{font-size:2.4em}
+.sd-ico.sem-margem{margin-right:0}
+.hotel-icone .sd-ico{margin:0 0 10px;font-size:2.4em}
+</style>
+</head>
+<body>
+<svg id="sd-sprite" style="display:none" aria-hidden="true">
+  <symbol id="i-doc" viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="2.5"/><rect x="8" y="9" width="8" height="6" rx="1"/><path d="M8 6h8"/><path d="M10 12.5h1M13.5 12.5h1"/></symbol>
+  <symbol id="i-docok" viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="2.5"/><path d="M8.5 12.2l2.4 2.4 4.6-5"/><path d="M8 6.5h8"/></symbol>
+  <symbol id="i-maleta" viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8.5 7V5.5A1.5 1.5 0 0 1 10 4h4a1.5 1.5 0 0 1 1.5 1.5V7"/><path d="M3 12.5h18"/></symbol>
+  <symbol id="i-passaporte" viewBox="0 0 24 24"><path d="M5 3.5h11a3 3 0 0 1 3 3v14a3 3 0 0 1-3 3H5z"/><circle cx="10.5" cy="10" r="3"/><path d="M7.8 16.2c.6-1.5 1.6-2.2 2.7-2.2s2.1.7 2.7 2.2"/><path d="M6 8.5v11"/></symbol>
+  <symbol id="i-seringa" viewBox="0 0 24 24"><path d="M13.5 3.5 20.5 10.5"/><path d="M18 6l-1.5 1.5"/><path d="M11.5 5.5 6.5 10.5 3.5 20.5l10-3 5-5"/><path d="M8 8 16 16"/><path d="M14.5 14.5 20.5 20.5"/></symbol>
+  <symbol id="i-sos" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7.5v5"/><circle cx="12" cy="16" r=".9"/></symbol>
+  <symbol id="i-termometro" viewBox="0 0 24 24"><path d="M14 14.8V5a2 2 0 1 0-4 0v9.8a4 4 0 1 0 4 0z"/><path d="M12 17.5a1 1 0 1 0 0 .01"/></symbol>
+  <symbol id="m-facebook" viewBox="0 0 24 24"><path d="M9.101 23.691v-7.98H6.627v-3.667h2.474v-1.58c0-4.085 1.848-5.978 5.858-5.978.401 0 .955.042 1.468.103a8.68 8.68 0 0 1 1.141.195v3.325a8.623 8.623 0 0 0-.653-.036 26.805 26.805 0 0 0-.733-.009c-.707 0-1.259.096-1.675.309a1.686 1.686 0 0 0-.679.622c-.258.42-.374.995-.374 1.752v1.297h3.919l-.386 2.103-.287 1.564h-3.246v8.245C19.396 23.238 24 18.179 24 12.044c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.628 3.874 10.35 9.101 11.647Z"></path></symbol>
+  <symbol id="m-instagram" viewBox="0 0 24 24"><path d="M7.0301.084c-1.2768.0602-2.1487.264-2.911.5634-.7888.3075-1.4575.72-2.1228 1.3877-.6652.6677-1.075 1.3368-1.3802 2.127-.2954.7638-.4956 1.6365-.552 2.914-.0564 1.2775-.0689 1.6882-.0626 4.947.0062 3.2586.0206 3.6671.0825 4.9473.061 1.2765.264 2.1482.5635 2.9107.308.7889.72 1.4573 1.388 2.1228.6679.6655 1.3365 1.0743 2.1285 1.38.7632.295 1.6361.4961 2.9134.552 1.2773.056 1.6884.069 4.9462.0627 3.2578-.0062 3.668-.0207 4.9478-.0814 1.28-.0607 2.147-.2652 2.9098-.5633.7889-.3086 1.4578-.72 2.1228-1.3881.665-.6682 1.0745-1.3378 1.3795-2.1284.2957-.7632.4966-1.636.552-2.9124.056-1.2809.0692-1.6898.063-4.948-.0063-3.2583-.021-3.6668-.0817-4.9465-.0607-1.2797-.264-2.1487-.5633-2.9117-.3084-.7889-.72-1.4568-1.3876-2.1228C21.2982 1.33 20.628.9208 19.8378.6165 19.074.321 18.2017.1197 16.9244.0645 15.6471.0093 15.236-.005 11.977.0014 8.718.0076 8.31.0215 7.0301.0839m.1402 21.6932c-1.17-.0509-1.8053-.2453-2.2287-.408-.5606-.216-.96-.4771-1.3819-.895-.422-.4178-.6811-.8186-.9-1.378-.1644-.4234-.3624-1.058-.4171-2.228-.0595-1.2645-.072-1.6442-.079-4.848-.007-3.2037.0053-3.583.0607-4.848.05-1.169.2456-1.805.408-2.2282.216-.5613.4762-.96.895-1.3816.4188-.4217.8184-.6814 1.3783-.9003.423-.1651 1.0575-.3614 2.227-.4171 1.2655-.06 1.6447-.072 4.848-.079 3.2033-.007 3.5835.005 4.8495.0608 1.169.0508 1.8053.2445 2.228.408.5608.216.96.4754 1.3816.895.4217.4194.6816.8176.9005 1.3787.1653.4217.3617 1.056.4169 2.2263.0602 1.2655.0739 1.645.0796 4.848.0058 3.203-.0055 3.5834-.061 4.848-.051 1.17-.245 1.8055-.408 2.2294-.216.5604-.4763.96-.8954 1.3814-.419.4215-.8181.6811-1.3783.9-.4224.1649-1.0577.3617-2.2262.4174-1.2656.0595-1.6448.072-4.8493.079-3.2045.007-3.5825-.006-4.848-.0608M16.953 5.5864A1.44 1.44 0 1 0 18.39 4.144a1.44 1.44 0 0 0-1.437 1.4424M5.8385 12.012c.0067 3.4032 2.7706 6.1557 6.173 6.1493 3.4026-.0065 6.157-2.7701 6.1506-6.1733-.0065-3.4032-2.771-6.1565-6.174-6.1498-3.403.0067-6.156 2.771-6.1496 6.1738M8 12.0077a4 4 0 1 1 4.008 3.9921A3.9996 3.9996 0 0 1 8 12.0077"></path></symbol>
+  <symbol id="m-pinterest" viewBox="0 0 24 24"><path d="M12.017 0C5.396 0 .029 5.367.029 11.987c0 5.079 3.158 9.417 7.618 11.162-.105-.949-.199-2.403.041-3.439.219-.937 1.406-5.957 1.406-5.957s-.359-.72-.359-1.781c0-1.663.967-2.911 2.168-2.911 1.024 0 1.518.769 1.518 1.688 0 1.029-.653 2.567-.992 3.992-.285 1.193.6 2.165 1.775 2.165 2.128 0 3.768-2.245 3.768-5.487 0-2.861-2.063-4.869-5.008-4.869-3.41 0-5.409 2.562-5.409 5.199 0 1.033.394 2.143.889 2.741.099.12.112.225.085.345-.09.375-.293 1.199-.334 1.363-.053.225-.172.271-.401.165-1.495-.69-2.433-2.878-2.433-4.646 0-3.776 2.748-7.252 7.92-7.252 4.158 0 7.392 2.967 7.392 6.923 0 4.135-2.607 7.462-6.233 7.462-1.214 0-2.354-.629-2.758-1.379l-.749 2.848c-.269 1.045-1.004 2.352-1.498 3.146 1.123.345 2.306.535 3.55.535 6.607 0 11.985-5.365 11.985-11.987C23.97 5.39 18.592.026 11.985.026L12.017 0z"></path></symbol>
+  <symbol id="m-tiktok" viewBox="0 0 24 24"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"></path></symbol>
+  <symbol id="m-youtube" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"></path></symbol>
+</svg>
+
+
+<header>
+<div class="menu-container">
+  <a href="index.html" class="logo">Soluções <span>&</span> Destinos</a>
+  <button class="menu-toggle" onclick="document.querySelector('nav').classList.toggle('active')">☰</button>
+  <nav>
+    <a href="index.html">🏠 Início</a>
+    <a href="noticias.html">📰 Notícias & Vistos</a>
+    <a href="servicos.html">💳 Serviços & Descontos</a>
+    <a href="index.html#videos"><span class="marca-badge" style="background:#FF0000"><svg viewBox="0 0 24 24" fill="#ffffff" aria-hidden="true"><use href="#m-youtube"></use></svg></span>Vídeos</a>
+    <a href="servicos.html#marcenaria">🧰 Marcenaria</a>
+    <a href="index.html#comunidade">👥 Comunidade</a>
+  </nav>
+</div>
+</header>
+
+<div class="section">
+  <h1>👋 Quem Somos, Ajuda &amp; Informações Legais</h1>
+  <p class="atualizacao">Tudo o que você precisa saber sobre o Soluções &amp; Destinos: quem faz, como o site funciona, como seus dados são tratados e de onde vêm as indicações.</p>
+
+  <div class="noticia" id="quem-somos">
+    <h2>👋 Quem Somos</h2>
+    <p class="quem-topo">Soluções e Destinos — Lugares que valem a viagem.</p>
+    <p>A <strong>Soluções e Destinos</strong> nasceu de uma paixão simples: descobrir lugares que despertam o desejo de viajar e compartilhar experiências que podem inspirar outras pessoas a conhecer o mundo.</p>
+    <p>Mais do que apresentar destinos, queremos mostrar aquilo que faz uma viagem realmente especial: uma paisagem inesquecível, um vilarejo cheio de charme, uma hospedagem acolhedora, uma experiência gastronômica, uma viagem de trem, uma descoberta inesperada ou simplesmente aquele momento que permanece na memória.</p>
+    <p>Acreditamos que viajar bem não significa necessariamente conhecer o maior número possível de lugares. Muitas vezes, significa <strong>escolher bem, aproveitar cada experiência e descobrir o que realmente vale a pena viver</strong>.</p>
+    <p>Por isso, nossos conteúdos reúnem destinos, viagens, hospedagens, experiências e dicas que podem ajudar você a conhecer novos lugares, encontrar inspiração para sua próxima viagem e olhar para cada destino com um pouco mais de curiosidade.</p>
+    <p>Compartilhamos tanto destinos conhecidos quanto lugares que podem surpreender, sempre buscando apresentar o que existe de especial em cada experiência.</p>
+    <p>A Soluções e Destinos está presente nas redes sociais e, agora, também neste espaço, ampliando nossa forma de compartilhar histórias, imagens, vídeos e informações sobre lugares que merecem ser descobertos.</p>
+    <p>Nosso propósito é inspirar você a viajar, conhecer, experimentar e criar suas próprias histórias.</p>
+    <p>Porque, no final, uma viagem não é apenas sobre chegar a um destino.</p>
+    <p class="destaque-final"><strong>É sobre tudo aquilo que vale a pena viver pelo caminho.</strong></p>
+    <p class="assinatura"><strong>Soluções e Destinos</strong><br><em>Lugares que valem a viagem.</em></p>
+  </div>
+
+  <div class="noticia" id="ajuda">
+    <h2>❓ Ajuda &amp; Dúvidas (FAQ)</h2>
+    <p><strong>O site cobra alguma coisa?</strong> Não. Todo o conteúdo é gratuito.</p>
+    <p><strong>Os horários dos relógios são confiáveis?</strong> Sim: são calculados no seu próprio aparelho, a partir do fuso oficial de cada cidade, e atualizados a cada segundo.</p>
+    <p><strong>A cotação do câmbio é a mesma que vou conseguir?</strong> Não exatamente. Mostramos o valor de referência de mercado em reais (fonte: exchangerate-api.com e Banco Central Europeu). Casas de câmbio, cartões e bancos cobram spread, tarifas e IOF por cima.</p>
+    <p><strong>Por que os destinos mudam de um dia para o outro?</strong> Destacamos 10 destinos por vez e a seleção gira sozinha, para você sempre ter novidades. Quer ver tudo? Use o botão <strong>“Ver todos do banco”</strong> na seção de destinos.</p>
+    <p><strong>Como deixo um recado no mural?</strong> Vá em <a href="index.html#comunidade">Recados da Comunidade</a>, escreva seu nome e seu recado — e escolha sua bandeira, se quiser. Não pedimos e-mail, telefone nem cadastro.</p>
+    <p><strong>Por que meu recado ainda não aparece?</strong> Os recados passam por moderação antes de ficarem visíveis para todos. O seu fica salvo no seu navegador, marcado como “aguardando moderação”, até ser aprovado.</p>
+  </div>
+
+  <div class="noticia" id="privacidade">
+    <h2>🔒 Privacidade</h2>
+    <p><strong>Não pedimos cadastro.</strong> Você navega, lê e usa os painéis sem criar conta, sem informar e-mail e sem fornecer telefone.</p>
+    <p><strong>Recados:</strong> guardamos apenas o nome (ou apelido), o país/bandeira que você escolheu e o texto. O que você escreve fica salvo no seu próprio navegador e é enviado para a moderação. Nada é publicado sem aprovação, e você pode escrever sem se identificar.</p>
+    <p><strong>Não vendemos e não compartilhamos seus dados.</strong> Não há anúncios personalizados nem rastreamento nosso.</p>
+    <p><strong>Serviços de terceiros:</strong> usamos mapas do Google, vídeos do YouTube e incorporações de redes sociais. Esses serviços podem coletar dados conforme as próprias políticas de privacidade deles.</p>
+    <p><strong>O que fica salvo no seu navegador:</strong> apenas as suas preferências — cidades escolhidas nos relógios, moedas em destaque e seus próprios recados pendentes.</p>
+  </div>
+
+  <div class="noticia" id="termos">
+    <h2>📄 Termos de Uso</h2>
+    <p><strong>Conteúdo informativo.</strong> As informações sobre vistos, documentos, vacinas e regras de entrada são pesquisadas em fontes oficiais, mas mudam com frequência. Antes de viajar, confirme sempre nos sites dos governos e consulados — os links estão indicados na página <a href="noticias.html">Notícias &amp; Vistos</a>.</p>
+    <p><strong>Sem responsabilidade por decisões de terceiros.</strong> Companhias aéreas, seguradoras, bancos e órgãos de imigração têm regras próprias: a palavra final é sempre deles.</p>
+    <p><strong>Links externos:</strong> o site aponta para páginas de fora; não controlamos o conteúdo nem a disponibilidade delas.</p>
+    <p><strong>Direitos autorais:</strong> os textos são de nossa autoria e as fotos pertencem aos seus autores, exibidos com os devidos créditos (muitas vêm da Wikimedia Commons, em licenças livres). É permitido usar o conteúdo para fins pessoais e não comerciais, citando a fonte.</p>
+  </div>
+
+  <div class="noticia" id="afiliados">
+    <h2>🤝 Aviso de Afiliados &amp; Parcerias</h2>
+    <p>Alguns links do site — como <strong>Wise</strong>, <strong>Nomad</strong> e plataformas de hospedagem (Booking, Airbnb, Expedia, Hotels.com, Skyscanner, Hostelworld, Decolar) — são <strong>links de afiliado</strong>.</p>
+    <p>Se você contratar um serviço por esses links, podemos receber uma pequena comissão — <strong>sem nenhum custo extra para você</strong>. É isso que ajuda a manter o site no ar e de graça.</p>
+    <p>Só indicamos serviços que consideramos úteis de verdade. Nenhuma empresa paga para aparecer aqui, e nossas opiniões são independentes.</p>
+  </div>
+
+  <div class="noticia" id="contato">
+    <h2>✉️ Contato</h2>
+    <p>O jeito mais rápido de falar com a gente é pelas redes sociais — respondemos por lá e adoramos ver suas fotos de viagem e seus projetos de marcenaria:</p>
+    <p><span class="marca-badge" style="background:#E4405F"><svg viewBox="0 0 24 24" fill="#ffffff" aria-hidden="true"><use href="#m-instagram"></use></svg></span><a href="https://www.instagram.com/solucoes_e_destinos?igsh=MWJ2Nmg5OTIwbjc1" target="_blank" rel="noopener">Instagram</a> · 🎵 <a href="https://www.tiktok.com/@solucoes.e.destinos?_r=1&_t=ZS-95GjSDD9eT4" target="_blank" rel="noopener">TikTok</a> · 🎬 <a href="https://youtube.com/@solucoesedestinos?si=ZrDCT_OpQcGh_rv1" target="_blank" rel="noopener">YouTube</a> · 📘 <a href="https://www.facebook.com/share/17P8YoP2U4/" target="_blank" rel="noopener">Facebook</a>
+        <a href="https://pin.it/5d62WRZOq" target="_blank" rel="noopener"><span class="marca-badge" style="background:#E60023"><svg viewBox="0 0 24 24" fill="#ffffff" aria-hidden="true"><use href="#m-pinterest"></use></svg></span>Pinterest</a></p>
+    <p>Tem uma dica, um destino ou um relato? Deixe no <a href="index.html#comunidade">mural da comunidade</a> — depois de aprovado, ele fica no site para todo mundo ler.</p>
+  </div>
+
+</div>
+
+
+<style>
+.rodape-site { background: linear-gradient(135deg, #2c1d11, #4a301e); color: #f0e6d8; margin-top: 50px; border-top: 4px solid #d97706; }
+.rodape-dentro { max-width: 1200px; margin: 0 auto; padding: 34px 20px 22px; display: grid; grid-template-columns: repeat(auto-fit, minmax(185px, 1fr)); gap: 24px; }
+.rodape-col h4 { color: #f59e0b; font-family: Georgia, serif; font-size: 1.02em; margin-bottom: 12px; }
+.rodape-col p { font-size: .86em; line-height: 1.7; color: #e2d3bd; margin-bottom: 10px; }
+.rodape-col a { display: block; color: #f0e6d8; text-decoration: none; font-size: .86em; padding: 4px 0; transition: .2s; }
+.rodape-col a:hover { color: #f59e0b; transform: translateX(3px); }
+.rodape-redes a { background: rgba(255,255,255,.08); border: 1px solid rgba(217,119,6,.5); border-radius: 18px; padding: 6px 12px; margin: 0 6px 6px 0; font-size: .82em; }
+.rodape-base { border-top: 1px solid rgba(255,255,255,.12); padding: 16px 20px; text-align: center; font-size: .78em; color: #c9b89f; }
+.rodape-base p { margin: 0 auto; max-width: 850px; line-height: 1.6; }
+@media (max-width: 600px) { .rodape-dentro { padding: 26px 18px 16px; gap: 18px; } }
+</style>
+
+<footer class="rodape-site">
+  <div class="rodape-dentro">
+    <div class="rodape-col">
+      <h4>Quem Somos</h4>
+      <p>Somos apaixonados por descobrir lugares que despertam o desejo de viajar — e por compartilhar experiências, imagens e dicas que inspirem você a conhecer o mundo.</p>
+      <a href="institucional.html#quem-somos">→ Ler nossa história</a>
+    </div>
+    <div class="rodape-col">
+      <h4>Nossas Redes</h4>
+      <div class="rodape-redes">
+        <a href="https://www.instagram.com/solucoes_e_destinos?igsh=MWJ2Nmg5OTIwbjc1" target="_blank" rel="noopener"><span class="marca-badge" style="background:#E4405F"><svg viewBox="0 0 24 24" fill="#ffffff" aria-hidden="true"><use href="#m-instagram"></use></svg></span>Instagram</a>
+        <a href="https://www.tiktok.com/@solucoes.e.destinos?_r=1&_t=ZS-95GjSDD9eT4" target="_blank" rel="noopener"><span class="marca-badge" style="background:#000000"><svg viewBox="0 0 24 24" fill="#ffffff" aria-hidden="true"><use href="#m-tiktok"></use></svg></span>TikTok</a>
+        <a href="https://youtube.com/@solucoesedestinos?si=ZrDCT_OpQcGh_rv1" target="_blank" rel="noopener"><span class="marca-badge" style="background:#FF0000"><svg viewBox="0 0 24 24" fill="#ffffff" aria-hidden="true"><use href="#m-youtube"></use></svg></span>YouTube</a>
+        <a href="https://www.facebook.com/share/17P8YoP2U4/" target="_blank" rel="noopener"><span class="marca-badge" style="background:#1877F2"><svg viewBox="0 0 24 24" fill="#ffffff" aria-hidden="true"><use href="#m-facebook"></use></svg></span>Facebook</a>
+      </div>
+    </div>
+    <div class="rodape-col">
+      <h4>Navegue</h4>
+      <a href="index.html">🏠 Início</a>
+      <a href="index.html#destinos">🗺️ Destinos</a>
+      <a href="noticias.html">📰 Notícias &amp; Vistos</a>
+      <a href="servicos.html">💳 Serviços &amp; Descontos</a>
+      <a href="servicos.html#marcenaria">🧰 Marcenaria Criativa</a>
+      <a href="index.html#comunidade">💬 Recados da Comunidade</a>
+    </div>
+    <div class="rodape-col">
+      <h4>Dicas úteis</h4>
+      <a href="noticias.html#etias"><span class="sd-ico s" style="color:#f59e0b"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-doc"></use></svg></span>ETIAS &amp; EES (Europa)</a>
+      <a href="noticias.html#eta"><span class="sd-ico s" style="color:#f59e0b"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-docok"></use></svg></span>ETA (Reino Unido, Canadá e EUA)</a>
+      <a href="noticias.html#passaporte"><span class="sd-ico s" style="color:#f59e0b"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-passaporte"></use></svg></span>Passaporte brasileiro</a>
+      <a href="noticias.html#clima"><span class="sd-ico s" style="color:#f59e0b"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-termometro"></use></svg></span>Clima na Europa</a>
+      <a href="noticias.html#preparacao"><span class="sd-ico s" style="color:#f59e0b"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-maleta"></use></svg></span>Preparação de viagem</a>
+      <a href="noticias.html#exterior"><span class="sd-ico s" style="color:#f59e0b"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-sos"></use></svg></span>Emergências no exterior</a>
+      <a href="noticias.html#civp"><span class="sd-ico s" style="color:#f59e0b"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-seringa"></use></svg></span>Certificado de vacina</a>
+    </div>
+    <div class="rodape-col">
+      <h4>Institucional</h4>
+      <a href="institucional.html#quem-somos">👋 Quem Somos</a>
+      <a href="institucional.html#ajuda">❓ Ajuda &amp; Dúvidas</a>
+      <a href="institucional.html#privacidade">🔒 Privacidade</a>
+      <a href="institucional.html#termos">📄 Termos de Uso</a>
+      <a href="institucional.html#afiliados">🤝 Aviso de Afiliados</a>
+      <a href="institucional.html#contato">✉️ Contato</a>
+    </div>
+  </div>
+  <div class="rodape-base">
+    <p>© 2026 Soluções &amp; Destinos — <em>Lugares que valem a viagem.</em> · Feito no Brasil 🇧🇷</p>
+    <p style="margin-top:6px">Conteúdo informativo: antes de viajar, confirme sempre as regras nos <a href="noticias.html" style="color:#f59e0b;font-weight:bold">sites oficiais</a> indicados em cada página.</p>
+  </div>
+</footer>
+
+
+</body>
+</html>

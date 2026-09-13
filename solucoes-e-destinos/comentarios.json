@@ -1,0 +1,11 @@
+{
+  "_como_usar": "Para publicar um recado no mural, copie um dos blocos abaixo e cole dentro da lista 'comentarios', separando por vírgula. Campos: nome, pais (texto), iso (código da bandeira: br, us, pt, il...), texto e data (formato 2026-09-11T15:00:00).",
+  "_exemplo": {
+    "nome": "Exemplo",
+    "pais": "Portugal",
+    "iso": "pt",
+    "texto": "Texto do recado que aparece no mural.",
+    "data": "2026-09-11T15:00:00"
+  },
+  "comentarios": []
+}

@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Moderação de Recados | Soluções &amp; Destinos</title>
+<link rel="icon" href="sua-imagem.jpg">
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: 'Segoe UI', Tahoma, sans-serif; background: #fdf9f2; color: #2c1d11; }
+  header { background: linear-gradient(135deg, #2c1d11, #4a301e); color: #f5f0e6; padding: 18px 20px; border-bottom: 4px solid #d97706; }
+  header h1 { font-family: Georgia, serif; font-size: 1.35em; margin: 0; }
+  header p { margin: 6px 0 0; font-size: .85em; opacity: .85; }
+  .wrap { max-width: 900px; margin: 0 auto; padding: 24px 18px 60px; }
+  .card { background: #fff; border: 1px solid #f0e6d8; border-radius: 14px; padding: 20px; margin-bottom: 18px; box-shadow: 0 2px 10px rgba(120,80,40,.06); }
+  .card h2 { font-family: Georgia, serif; font-size: 1.15em; margin: 0 0 14px; color: #6b4423; }
+  label { display: block; font-size: .85em; font-weight: 700; margin: 12px 0 5px; color: #6b4423; }
+  input, textarea { width: 100%; padding: 11px 13px; border: 1px solid #e4d7c5; border-radius: 9px; font-size: .95em; font-family: inherit; background: #fffdf8; }
+  input:focus, textarea:focus { outline: none; border-color: #d97706; box-shadow: 0 0 0 3px rgba(217,119,6,.12); }
+  button { cursor: pointer; border: none; border-radius: 9px; padding: 11px 18px; font-size: .92em; font-weight: 700; font-family: inherit; transition: .2s; }
+  .btn-primario { background: linear-gradient(135deg, #d97706, #b45309); color: #fff; width: 100%; margin-top: 18px; }
+  .btn-primario:hover { transform: translateY(-1px); box-shadow: 0 6px 16px rgba(180,83,9,.28); }
+  .btn-aprovar { background: #ecfdf5; color: #047857; border: 1px solid #a7f3d0; padding: 8px 14px; }
+  .btn-aprovar:hover { background: #d1fae5; }
+  .btn-recusar { background: #fef2f2; color: #b91c1c; border: 1px solid #fecaca; padding: 8px 14px; }
+  .btn-recusar:hover { background: #fee2e2; }
+  .btn-reabrir { background: #fffbeb; color: #92400e; border: 1px solid #fde68a; padding: 8px 14px; }
+  .btn-excluir { background: #f8fafc; color: #64748b; border: 1px solid #e2e8f0; padding: 8px 14px; }
+  .btn-excluir:hover { color: #b91c1c; border-color: #fecaca; }
+  .btn-secundario { background: #fff7ed; color: #b45309; border: 1px solid #fed7aa; }
+  .aviso { padding: 13px 16px; border-radius: 10px; font-size: .88em; margin-bottom: 16px; line-height: 1.6; }
+  .aviso-info { background: #eff6ff; color: #1e40af; border: 1px solid #bfdbfe; }
+  .aviso-erro { background: #fef2f2; color: #b91c1c; border: 1px solid #fecaca; }
+  .aviso-ok { background: #ecfdf5; color: #047857; border: 1px solid #a7f3d0; }
+  .abas { display: flex; gap: 8px; margin-bottom: 18px; flex-wrap: wrap; }
+  .aba { background: #fff; border: 1px solid #f0e6d8; border-radius: 10px; padding: 9px 16px; font-size: .88em; font-weight: 700; color: #7c5c3e; }
+  .aba.ativa { background: linear-gradient(135deg, #d97706, #b45309); color: #fff; border-color: #b45309; }
+  .recado { border: 1px solid #f0e6d8; border-radius: 12px; padding: 15px 17px; margin-bottom: 12px; background: #fffdf8; }
+  .recado.pendente { border-left: 4px solid #f59e0b; }
+  .recado.aprovado { border-left: 4px solid #10b981; }
+  .rec-topo { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 8px; }
+  .rec-nome { font-weight: 800; color: #6b4423; }
+  .rec-meta { font-size: .78em; color: #8a7561; }
+  .rec-texto { line-height: 1.7; color: #3f2d1d; white-space: pre-wrap; margin: 8px 0 12px; }
+  .rec-acoes { display: flex; gap: 8px; flex-wrap: wrap; }
+  .etiqueta { font-size: .7em; font-weight: 800; text-transform: uppercase; letter-spacing: .5px; padding: 3px 9px; border-radius: 8px; }
+  .etq-pendente { background: #fef3c7; color: #92400e; }
+  .etq-aprovado { background: #d1fae5; color: #047857; }
+  .vazio { text-align: center; padding: 34px 20px; color: #8a7561; font-size: .92em; }
+  .topo-logado { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
+  .quem { font-size: .85em; color: #6b4423; }
+  code { background: #f5f0e6; padding: 2px 6px; border-radius: 4px; font-size: .88em; }
+  ol { line-height: 1.9; font-size: .9em; padding-left: 22px; }
+  img.band { width: 22px; border-radius: 3px; vertical-align: middle; }
+  .oculto { display: none; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>🛡️ Moderação de Recados</h1>
+  <p>Soluções &amp; Destinos — aprove, recuse ou exclua os recados da comunidade</p>
+</header>
+
+<div class="wrap">
+
+  <div id="msg"></div>
+
+  <!-- ============ 1. CONFIGURAÇÃO AUSENTE ============ -->
+  <div class="card oculto" id="telaConfig">
+    <h2>⚙️ Falta configurar o banco</h2>
+    <div class="aviso aviso-info">
+      Abra o arquivo <code>supabase-config.js</code> (que veio junto com o site), cole a <strong>URL do projeto</strong>
+      e a <strong>chave anon</strong> do Supabase, salve e recarregue esta página.
+    </div>
+    <p style="font-size:.9em;line-height:1.8">
+      Se você ainda não criou a tabela, rode o arquivo <code>supabase-tabela.sql</code> no painel do Supabase
+      (<strong>SQL Editor → New query → colar → Run</strong>).
+    </p>
+  </div>
+
+  <!-- ============ 2. LOGIN ============ -->
+  <div class="card oculto" id="telaLogin">
+    <h2>🔐 Entrar</h2>
+    <div class="aviso aviso-info">
+      Use o e-mail e a senha do moderador criados no Supabase
+      (<strong>Authentication → Users → Add user</strong>).
+    </div>
+    <label for="email">E-mail do moderador</label>
+    <input type="email" id="email" placeholder="seu-email@exemplo.com" autocomplete="username">
+    <label for="senha">Senha</label>
+    <input type="password" id="senha" placeholder="••••••••" autocomplete="current-password">
+    <button class="btn-primario" id="btnEntrar">Entrar</button>
+  </div>
+
+  <!-- ============ 3. PAINEL ============ -->
+  <div class="oculto" id="telaPainel">
+    <div class="card">
+      <div class="topo-logado">
+        <div>
+          <h2 style="margin:0">📋 Recados</h2>
+          <span class="quem" id="quem"></span>
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <button class="btn-secundario" id="btnAtualizar">🔄 Atualizar</button>
+          <button class="btn-secundario" id="btnBackup">💾 Backup JSON</button>
+          <button class="btn-secundario" id="btnSair">Sair</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="abas">
+      <button class="aba ativa" data-aba="pendente">⏳ Pendentes <span id="cPend">0</span></button>
+      <button class="aba" data-aba="aprovado">✅ Aprovados <span id="cApr">0</span></button>
+      <button class="aba" data-aba="todos">📚 Todos <span id="cTodos">0</span></button>
+    </div>
+
+    <div id="lista"></div>
+  </div>
+
+</div>
+
+<script src="supabase-config.js"></script>
+<script>
+(function () {
+  var msg = document.getElementById('msg');
+  var telaConfig = document.getElementById('telaConfig');
+  var telaLogin = document.getElementById('telaLogin');
+  var telaPainel = document.getElementById('telaPainel');
+  var lista = document.getElementById('lista');
+  var abaAtiva = 'pendente';
+  var recados = [];
+  var sessao = null;
+
+  function avisar(texto, tipo) {
+    msg.innerHTML = '<div class="aviso aviso-' + (tipo || 'info') + '">' + texto + '</div>';
+  }
+  function limparAviso() { msg.innerHTML = ''; }
+
+  function cfg() {
+    var u = window.SUPABASE_URL, k = window.SUPABASE_ANON_KEY;
+    if (!u || !k) return null;
+    if (String(u).indexOf('SEU-PROJETO') >= 0 || String(k).indexOf('COLE_A_CHAVE') >= 0) return null;
+    var t = window.SUPABASE_TOKEN_MODERADOR;
+    t = (t && String(t).length > 10) ? String(t) : null;
+    return { url: String(u).replace(/\/$/, ''), key: String(k), token: t };
+  }
+
+  function api(path, opcoes) {
+    var c = cfg();
+    opcoes = opcoes || {};
+    var headers = { apikey: c.key, Accept: 'application/json' };
+    if (sessao && sessao.access_token) headers.Authorization = 'Bearer ' + sessao.access_token;
+    else headers.Authorization = 'Bearer ' + c.key;
+    if (c.token) headers['x-moderador'] = c.token;
+    if (opcoes.body) headers['Content-Type'] = 'application/json';
+    if (opcoes.prefer) headers.Prefer = opcoes.prefer;
+    return fetch(c.url + path, {
+      method: opcoes.method || 'GET',
+      headers: headers,
+      body: opcoes.body ? JSON.stringify(opcoes.body) : undefined
+    }).then(function (r) {
+      if (r.status === 401 || r.status === 403) {
+        sessao = null; sessionStorage.removeItem('sd.mod');
+        mostrar();
+        throw new Error('Sessão expirada. Entre novamente.');
+      }
+      if (!r.ok) throw new Error('Erro HTTP ' + r.status);
+      return r.status === 204 ? null : r.json();
+    });
+  }
+
+  /* ---------------- LOGIN ---------------- */
+  document.getElementById('btnEntrar').addEventListener('click', function () {
+    var email = document.getElementById('email').value.trim();
+    var senha = document.getElementById('senha').value;
+    if (!email || !senha) { avisar('Preencha e-mail e senha.', 'erro'); return; }
+    var c = cfg();
+    var btn = this;
+    btn.disabled = true; btn.textContent = 'Entrando...';
+    fetch(c.url + '/auth/v1/token?grant_type=password', {
+      method: 'POST',
+      headers: { apikey: c.key, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: email, password: senha })
+    }).then(function (r) { return r.json().then(function (d) { return { ok: r.ok, d: d }; }); })
+      .then(function (res) {
+        btn.disabled = false; btn.textContent = 'Entrar';
+        if (!res.ok || !res.d.access_token) {
+          avisar('Não foi possível entrar: ' + (res.d.error_description || res.d.msg || 'verifique e-mail e senha.'), 'erro');
+          return;
+        }
+        sessao = { access_token: res.d.access_token, refresh_token: res.d.refresh_token, email: email };
+        sessionStorage.setItem('sd.mod', JSON.stringify(sessao));
+        limparAviso();
+        mostrar();
+        carregar();
+      })
+      .catch(function (e) {
+        btn.disabled = false; btn.textContent = 'Entrar';
+        avisar('Falha na conexão: ' + e.message, 'erro');
+      });
+  });
+
+  document.getElementById('senha').addEventListener('keydown', function (e) {
+    if (e.key === 'Enter') document.getElementById('btnEntrar').click();
+  });
+
+  document.getElementById('btnSair').addEventListener('click', function () {
+    sessao = null; sessionStorage.removeItem('sd.mod'); mostrar();
+  });
+  document.getElementById('btnAtualizar').addEventListener('click', carregar);
+
+  /* ---------------- LISTAGEM ---------------- */
+  function carregar() {
+    lista.innerHTML = '<div class="vazio">Carregando...</div>';
+    api('/rest/v1/recados?select=*&order=criado_em.desc&limit=500')
+      .then(function (rows) {
+        recados = rows || [];
+        document.getElementById('cPend').textContent = recados.filter(function (r) { return r.status === 'pendente'; }).length;
+        document.getElementById('cApr').textContent = recados.filter(function (r) { return r.status === 'aprovado'; }).length;
+        document.getElementById('cTodos').textContent = recados.length;
+        pintar();
+      })
+      .catch(function (e) { lista.innerHTML = '<div class="vazio">Não foi possível carregar: ' + e.message + '</div>'; });
+  }
+
+  function fmtData(iso) {
+    if (!iso) return '';
+    var d = new Date(iso);
+    if (isNaN(d)) return String(iso).slice(0, 10);
+    return d.toLocaleString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+  }
+
+  function pintar() {
+    var filtrados = recados.filter(function (r) {
+      return abaAtiva === 'todos' ? true : r.status === abaAtiva;
+    });
+    if (!filtrados.length) {
+      lista.innerHTML = '<div class="vazio">Nenhum recado aqui. ' +
+        (abaAtiva === 'pendente' ? 'Quando um visitante escrever, ele aparece nesta aba. 👍' : '') + '</div>';
+      return;
+    }
+    lista.innerHTML = filtrados.map(function (r) {
+      var band = r.iso ? '<img class="band" src="https://flagcdn.com/w80/' + String(r.iso).toLowerCase() + '.png" alt="">' : '';
+      var acoes = r.status === 'aprovado'
+        ? '<button class="btn-reabrir" data-acao="reabrir" data-id="' + r.id + '">↩️ Voltar para pendente</button>' +
+          '<button class="btn-excluir" data-acao="excluir" data-id="' + r.id + '">🗑️ Excluir</button>'
+        : '<button class="btn-aprovar" data-acao="aprovar" data-id="' + r.id + '">✅ Aprovar</button>' +
+          '<button class="btn-excluir" data-acao="excluir" data-id="' + r.id + '">🗑️ Excluir</button>';
+      return '<div class="recado ' + r.status + '">' +
+        '<div class="rec-topo">' + band +
+          '<span class="rec-nome">' + esc(r.nome || '(sem nome)') + '</span>' +
+          (r.pais ? '<span class="rec-meta">' + esc(r.pais) + '</span>' : '') +
+          '<span class="etiqueta etq-' + r.status + '">' + r.status + '</span>' +
+        '</div>' +
+        '<div class="rec-meta">🕒 ' + fmtData(r.data || r.criado_em) + '</div>' +
+        '<div class="rec-texto">' + esc(r.texto || '') + '</div>' +
+        '<div class="rec-acoes">' + acoes + '</div>' +
+      '</div>';
+    }).join('');
+  }
+
+  function esc(s) {
+    return String(s == null ? '' : s)
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+  }
+
+  lista.addEventListener('click', function (e) {
+    var b = e.target.closest ? e.target.closest('button[data-acao]') : null;
+    if (!b) return;
+    var id = b.getAttribute('data-id');
+    var acao = b.getAttribute('data-acao');
+    if (acao === 'excluir' && !confirm('Excluir este recado para sempre?')) return;
+    b.disabled = true;
+    var p;
+    if (acao === 'aprovar') p = api('/rest/v1/recados?id=eq.' + id, { method: 'PATCH', prefer: 'return=minimal', body: { status: 'aprovado' } });
+    else if (acao === 'reabrir') p = api('/rest/v1/recados?id=eq.' + id, { method: 'PATCH', prefer: 'return=minimal', body: { status: 'pendente' } });
+    else p = api('/rest/v1/recados?id=eq.' + id, { method: 'DELETE', prefer: 'return=minimal' });
+    p.then(function () {
+      limparAviso();
+      var txt = acao === 'aprovar' ? '✅ Recado aprovado — já está no mural do site!'
+        : acao === 'reabrir' ? '↩️ Recado voltou para pendente.'
+        : '🗑️ Recado excluído.';
+      avisar(txt, acao === 'excluir' ? 'info' : 'ok');
+      carregar();
+    }).catch(function (err) {
+      b.disabled = false;
+      avisar('Não deu certo: ' + err.message, 'erro');
+    });
+  });
+
+  var abas = document.querySelectorAll('.aba');
+  for (var i = 0; i < abas.length; i++) {
+    abas[i].addEventListener('click', function () {
+      for (var j = 0; j < abas.length; j++) abas[j].classList.remove('ativa');
+      this.classList.add('ativa');
+      abaAtiva = this.getAttribute('data-aba');
+      pintar();
+    });
+  }
+
+  /* ---------------- BACKUP ---------------- */
+  document.getElementById('btnBackup').addEventListener('click', function () {
+    var aprovados = recados.filter(function (r) { return r.status === 'aprovado'; })
+      .sort(function (a, b) { return new Date(b.data || b.criado_em) - new Date(a.data || a.criado_em); })
+      .map(function (r) { return { nome: r.nome || '', pais: r.pais || '', iso: r.iso || '', texto: r.texto || '', data: r.data || r.criado_em }; });
+    var json = JSON.stringify({ comentarios: aprovados }, null, 2);
+    var blob = new Blob([json], { type: 'application/json' });
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'comentarios.json';
+    a.click();
+    avisar('💾 Backup baixado com ' + aprovados.length + ' recado(s) aprovado(s). Guarde como segurança — ' +
+      'se o banco falhar, o site usa esse arquivo.', 'ok');
+  });
+
+  /* ---------------- INÍCIO ---------------- */
+  function mostrar() {
+    if (!cfg()) { telaConfig.classList.remove('oculto'); telaLogin.classList.add('oculto'); telaPainel.classList.add('oculto'); return; }
+    telaConfig.classList.add('oculto');
+    if (!sessao && cfg() && cfg().token) sessao = { token: true, email: 'moderador (acesso direto)' };
+    if (!sessao) {
+      try { var s = sessionStorage.getItem('sd.mod'); if (s) sessao = JSON.parse(s); } catch (e) {}
+    }
+    if (sessao) {
+      telaLogin.classList.add('oculto');
+      telaPainel.classList.remove('oculto');
+      document.getElementById('quem').textContent = 'Moderador: ' + (sessao.email || '');
+    } else {
+      telaPainel.classList.add('oculto');
+      telaLogin.classList.remove('oculto');
+    }
+  }
+
+  mostrar();
+  if (sessao) carregar();
+})();
+</script>
+</body>
+</html>
